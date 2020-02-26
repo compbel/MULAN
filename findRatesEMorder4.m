@@ -28,7 +28,7 @@ currL = -Inf;
 
 
 % options = optimoptions('fmincon','Display','off','SpecifyObjectiveGradient',false,'MaxFunctionEvaluations',15000);
-nIter = 0;
+nIter = 1;
 ls = zeros(1,maxIter);
 while toCont
 %     l = @(t)likelihoodRatesOrders1(t,currTheta,mutOrders);
@@ -48,11 +48,11 @@ while toCont
 %     newTime = t';
     
 %     newTheta = deg./(newTime(m+1)-newTime(1:m));   
-    newTheta = deg./(max(newTime(1:m))-newTime(1:m));
-%     newTheta = zeros(1,m);
-%     for i = intern
-%         newTheta(i) = deg(i)/(max(newTime(stree(i).children)) - newTime(i));
-%     end
+%     newTheta = deg./(max(newTime(1:m))-newTime(1:m));
+    newTheta = zeros(1,m);
+    for i = intern
+        newTheta(i) = deg(i)/(max(newTime(stree(i).children)) - newTime(i));
+    end
     
     ind = find(isnan(newTheta));
     newTheta(ind) = 0;

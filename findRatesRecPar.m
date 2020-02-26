@@ -1,4 +1,4 @@
-function [mutOrders,times, best] = findRatesRec(stree,rates, minRate,maxRate,eps, AM)
+function [mutOrders,times, best] = findRatesRecPar(stree,rates, minRate,maxRate,eps, AM)
 tStep = 10;
 
 
@@ -40,7 +40,7 @@ for i = 1:length(stree(1).children)
         idx = idx+ 1;
     end
     %      call recursevely
-    [moSub, mrSub, tSub] = findRatesRec(subtree,subrates, minRate,maxRate,eps);
+    [moSub, mrSub, tSub] = findRatesRecPar(subtree,subrates, minRate,maxRate,eps);
     %   restore mutOrders from recursion output
     %   i node in subtree corresponds to q(i) from stree
     for k=1:length(q)
@@ -85,11 +85,11 @@ parfor j=1:length(P)
         step = step +1;
     end
     [mutRatesT,timesT, L] = findOrder4(streeP, rates,AMs,mOrdersP,minRate,maxRate,eps);
-    lperms(j) = L;
+    lperms(j) = -L;
     ordersP{j} = mOrdersP;
     timesP{j} = timesT;
 end
-[best,iml] = min(lperms);
+[best,iml] = max(round(lperms,5));
 times = timesP{iml};
 mutOrders = ordersP{iml};
 

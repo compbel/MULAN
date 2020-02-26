@@ -74,8 +74,9 @@ function violins = violinplot(data, cats, varargin)
     % 1D data, one category for each data point
     elseif hascategories && numel(data) == numel(cats)
         cats = categorical(cats);
-        catnames = categories(cats);
-%         catnames = {'m=30';'m=60';'m=90';'m=120';'m=150'};
+%         catnames = categories(cats);
+         catnames = {'n=70';'n=90';'n=110';'n=130';'n=150'}';
+%         catnames = {'n=70 alpha=0.1';'n=70 true alpha=0.1';'n=70 alpha=0.2';'n=70 true alpha=0.2'};
         for n=1:length(catnames)
             thisCat = catnames{n};
             thisData = data(cats == thisCat);

@@ -4,6 +4,7 @@ function [currTime,EMOrders,A,rhs] = getInitTimeConsMatr(mutOrders,stree,minRate
     currTime = zeros(1,m+1);
     AMOrders = zeros(m,m);
     EMOrders = zeros(m-1,m+1);
+%     EMOrders = zeros(m-1+nLeafs,m+1);
     iEdge = 1;
         for i = 1:m
             for j = 2:length(mutOrders{i})
@@ -12,6 +13,11 @@ function [currTime,EMOrders,A,rhs] = getInitTimeConsMatr(mutOrders,stree,minRate
                 EMOrders(iEdge,mutOrders{i}(j-1)) = -1;
                 iEdge = iEdge + 1;
             end
+%             if ismember(i,leafs)
+%                 EMOrders(iEdge,m+1) = 1;
+%                 EMOrders(iEdge,mutOrders{i}(end)) = -1;
+%                 iEdge = iEdge + 1;
+%             end
         end
     G = digraph(AMOrders);
     % plot(G);

@@ -10,4 +10,4 @@ for i = 1:m
     end
     f = f - h*theta(i)*t(i);
 end
-f = f + h*sum(theta,2) - m*log(h);
+% f = f + h*sum(theta,2) - m*log(h);

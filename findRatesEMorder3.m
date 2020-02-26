@@ -1,4 +1,5 @@
 function [mutRates,times, bestL] = findRatesEMorder3(stree,AM,minRate,maxRate,maxTime,eps, defaultRate, totalIter)
+% local search for the problem with the fixed number of different rates
 normalNodes = datasample(1:m,round(m/2), 'Replace', false);
 highMutRateNodes = setdiff(1:m, normalNodes);
 secondRate = normrnd((maxRate+minRate)/2,(maxRate+minRate)/4);

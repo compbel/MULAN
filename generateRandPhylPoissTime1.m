@@ -1,5 +1,11 @@
-function [AM,timesMut,rates,stree,likelihood,likelihoodEvents,aux] = generateRandPhylPoissTime1(m,minTheta,maxTheta,maxTime)
+function [AM,timesMut,rates,stree,likelihood,likelihoodEvents,aux] = generateRandPhylPoissTime1(m,minTheta,maxTheta,maxTime,prior)
 % stree: [nextChild haplotype parent label frequency timet fitness oldChild rate]
+
+%!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+% maxTheta = minTheta;
+mu = (log(maxTheta) + log(minTheta))/2;
+sigma = (log(maxTheta) - log(minTheta))/6;
+h = (maxTheta-minTheta)/(m-1);
 time = 0;
 likelihood = 0;
 likelihoodEvents = zeros(2,m);
@@ -12,7 +18,18 @@ nCurrMut = 1;
 stree(1).children = [];
 stree(1).parent = 0;
 stree(1).time = 0;
-rates(1) = minTheta + rand*(maxTheta - minTheta);
+if strcmp(prior,'uniform')
+    rates(1) = minTheta + rand*(maxTheta - minTheta);
+end
+if strcmp(prior,'lognormal')
+    rates(1) = lognrnd(mu,sigma);
+end
+if strcmp(prior,'unidiscr')
+    rates(1) = minTheta;
+end
+if strcmp(prior,'binary')
+    rates(1) = minTheta;
+end
 stree(1).rate = rates(1);
 % waitTimeExp(1) = exprnd(1)/rates(1);
 waitTimeExp(1) = 1/rates(1);
@@ -31,8 +48,23 @@ while (time <= maxTime) && (nCurrMut < m)
             waitTime(i) = 0;
             stree(i).children = [stree(i).children nCurrMutNew];
             stree(nCurrMutNew).parent = i;
-            rates(nCurrMutNew) = minTheta + rand*(maxTheta - minTheta);
-%             
+            if strcmp(prior,'uniform')
+                rates(nCurrMutNew) = minTheta + rand*(maxTheta - minTheta);
+            end
+            if strcmp(prior,'lognormal')
+                rates(nCurrMutNew) = lognrnd(mu,sigma);
+            end
+            if strcmp(prior,'unidiscr')
+                rates(nCurrMutNew) = minTheta + (nCurrMutNew-1)*h;
+            end
+            if strcmp(prior,'binary')
+                if rand < 0.5
+                    rates(nCurrMutNew) = minTheta;
+                else
+                    rates(nCurrMutNew) = maxTheta;
+                end
+            end 
+            %
 %             z1 = minTheta;
 %             z2 = maxTheta;
 %             minTheta = z2;
@@ -47,8 +79,8 @@ while (time <= maxTime) && (nCurrMut < m)
             waitTimeExp(nCurrMutNew) = 1/rates(nCurrMutNew);
 %             waitTimeExp(i) = -log(rand)/rates(i);
 %             waitTimeExp(nCurrMutNew) = -log(rand)/rates(nCurrMutNew);
-%             waitTimeExp(i) = mean(-log(rand(1,10))/rates(i));
-%             waitTimeExp(nCurrMutNew) = mean(-log(rand(1,10))/rates(nCurrMutNew));
+%             waitTimeExp(i) = mean(-log(rand(1,200))/rates(i));
+%             waitTimeExp(nCurrMutNew) = mean(-log(rand(1,200))/rates(nCurrMutNew));
         end
     end
     nCurrMut = nCurrMutNew;

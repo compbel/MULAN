@@ -1,5 +1,5 @@
 clear;
-m = 30;
+m = 20;
 nTests = 5;
 % minTheta = 1/50;
 % maxTheta = 1/10;
@@ -14,12 +14,12 @@ for test = 1:nTests
     [AM,timesTrue,ratesTrue,stree,likelTrue,likelEventsTrue,aux] = generateRandPhylPoissTime1(m,minTheta,maxTheta,maxTimeSimul);
 
     m = size(AM,1);
-    G = digraph(AM);
-    nodeLabels = cell(1,m);
-    for i = 1:m
-        nodeLabels{i} = ['(' int2str(i) ',' num2str(round(stree(i).rate,3)) ',' int2str(stree(i).time) ')'];
-    end
-    plot(G,'NodeLabel',nodeLabels);
+%     G = digraph(AM);
+%     nodeLabels = cell(1,m);
+%     for i = 1:m
+%         nodeLabels{i} = ['(' int2str(i) ',' num2str(round(stree(i).rate,3)) ',' int2str(stree(i).time) ')'];
+%     end
+%     plot(G,'NodeLabel',nodeLabels);
     deg = sum(AM,2)';
 
     mutOrders = cell(1,m);
@@ -35,7 +35,6 @@ for test = 1:nTests
 
     % [mutOrders,times, best] = findRatesBFS1(stree,minTheta,maxTheta,maxTime,eps, AM);
 
-    %% 
 
     [ratesInfer,timesInfer,stopFlag] = findRatesEMorder1(stree,AM,mutOrders,minTheta,maxTheta,maxTime,maxIter,eps);
     % [ratesInfer,timesInfer] = findRatesEMorder2(stree,AM,mutOrders,minTheta,maxTheta,maxTime,eps);
@@ -64,10 +63,10 @@ for test = 1:nTests
 end
 %% 
 
-sigma = (maxTheta-minTheta)/20;
-nIterMH = 5000;
-ratesInfer = findRatesMHUniform(stree,AM,mutOrders,minTheta,maxTheta,nIterMH,sigma)
-ind = find(ratesInfer ~= 0);
-accurRate = 1 - mean(abs(ratesTrue(ind)-ratesInfer(ind))./ratesInfer(ind))
-corrRateS = corr(ratesTrue(ind)', ratesInfer(ind)','Type','Spearman')
+% sigma = (maxTheta-minTheta)/20;
+% nIterMH = 5000;
+% ratesInfer = findRatesMHUniform(stree,AM,mutOrders,minTheta,maxTheta,nIterMH,sigma)
+% ind = find(ratesInfer ~= 0);
+% accurRate = 1 - mean(abs(ratesTrue(ind)-ratesInfer(ind))./ratesInfer(ind))
+% corrRateS = corr(ratesTrue(ind)', ratesInfer(ind)','Type','Spearman')
 

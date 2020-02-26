@@ -11,7 +11,6 @@ for i = 1:m
     f = f + theta(i)*(t(m+1) - t(mutOrders{i}(end)));
 end
 
-z = 5;
 
 % if nargout > 1 % gradient required
 %     gradf = zeros(1,m);
