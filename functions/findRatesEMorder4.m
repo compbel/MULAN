@@ -1,4 +1,4 @@
-function [mutRates,times,mutOrdersOpt,likel,stopFlag] = findRatesEMorder2(stree,AM,minRate,maxRate,maxTime,maxIter,eps,eps1)
+function [mutRates,times,mutOrdersOpt,likel,stopFlag] = findRatesEMorder4(stree,AM,minRate,maxRate,maxTime,maxIter,eps,eps1)
 stopFlag = 0;
 m = size(stree,2);
 deg = zeros(1,m);
@@ -19,6 +19,7 @@ ub(1) = 0;
 
 theta0 = 0.5*(maxRate + minRate);
 currTheta = theta0*ones(1,m);
+% currTheta = minRate*ones(1,m) + (maxRate-minRate)*rand(1,m);
 % [currTime,EMOrders,A,rhs] = getInitTimeConsMatr(mutOrders,stree,minRate,maxRate,maxTime,m,leafs);
 currL = -Inf;
 
@@ -28,7 +29,7 @@ currL = -Inf;
 
 
 % options = optimoptions('fmincon','Display','off','SpecifyObjectiveGradient',false,'MaxFunctionEvaluations',15000);
-nIter = 0;
+nIter = 1;
 ls = zeros(1,maxIter);
 while toCont
 %     l = @(t)likelihoodRatesOrders1(t,currTheta,mutOrders);
@@ -48,11 +49,11 @@ while toCont
 %     newTime = t';
     
 %     newTheta = deg./(newTime(m+1)-newTime(1:m));   
-    newTheta = deg./(max(newTime(1:m))-newTime(1:m));
-%     newTheta = zeros(1,m);
-%     for i = intern
-%         newTheta(i) = deg(i)/(max(newTime(stree(i).children)) - newTime(i));
-%     end
+%     newTheta = deg./(max(newTime(1:m))-newTime(1:m));
+    newTheta = zeros(1,m);
+    for i = intern
+        newTheta(i) = deg(i)/(max(newTime(stree(i).children)) - newTime(i));
+    end
     
     ind = find(isnan(newTheta));
     newTheta(ind) = 0;

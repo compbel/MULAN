@@ -1,3 +1,3 @@
 # MULAN
 
-To reproduce paper results run single_cell_mutrate_test.m file
+The tool to infer mutation rated from single-cell DNA data. The tool uses the tree topology obtained by other tools(i.e. SCITE).

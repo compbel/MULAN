@@ -1,0 +1,16 @@
+disp('Starting MULAN');
+addpath('functions');
+
+if (~exist('minTheta', 'var'))
+minTheta = 1e-5;
+end
+maxTheta = 1e-4;
+maxTime = 100000;
+eps = 0.001;
+eps1 = 0.001;
+mutRate = minTheta;
+maxIter = 10;
+
+[stree, AM] = readScite(filePath,nMutations);
+
+[ratesInfer,timesInfer1,ordersInfer1,likelInfer1,stopFlag1] = findRatesEMorder4(stree,AM,minTheta,maxTheta,maxTime,maxIter,eps,eps1);
