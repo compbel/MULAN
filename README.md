@@ -13,7 +13,7 @@ There are two required parameters:
   - nMutations - the number of mutations in the tree(excluding germline)
   
 Optional parameters:
-  - output - output prefix. Two files with names output+'.txt' and output+'.mat' will be created. (default is 'out')
+  - outputPrefix - output prefix. Two files with names output+'.txt' and output+'.mat' will be created. (default is 'out')
   - minTheta - minimum mutaion rate (default is 1e-5)
   - maxTheta - maximum mutation rate (default is 1e-4)
   
